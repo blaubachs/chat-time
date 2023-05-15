@@ -5,7 +5,7 @@ import { MessageInterface } from "../utils/interfaces";
 export default function Message({ user, message }: MessageInterface) {
   return (
     <div className="border-black border-2 w-5/12 flex items-center">
-      <div className="p-3 w-40">
+      <div className="p-3 w-28">
         <img
           className="rounded-full"
           src={placeholderImage}
