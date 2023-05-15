@@ -3,7 +3,11 @@ export interface GlobalPropTypes {
   username: string;
 }
 
-export interface Message {
+export interface MessageInterface {
   user: string;
   message: string;
+}
+
+export interface MessageProps extends MessageInterface {
+  isCurrentUser: boolean;
 }
