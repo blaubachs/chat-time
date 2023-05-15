@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GlobalPropTypes } from "../utils/interfaces";
-
-interface Message {
-  user: string;
-  message: string;
-}
+import { GlobalPropTypes, Message } from "../utils/interfaces";
 
 export default function Chat({ clientSocket, username }: GlobalPropTypes) {
   const [newMessage, setNewMessage] = useState("");
