@@ -40,7 +40,7 @@ export default function Chat({ clientSocket, username }: GlobalPropTypes) {
   };
   return (
     <div
-      className="h-2/3 border-2 border-black mx-40 overflow-y-auto"
+      className="h-5/6 border-2 border-black mx-40 overflow-y-auto"
       ref={chatContainerRef}
     >
       You are {username}

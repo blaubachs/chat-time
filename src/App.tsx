@@ -47,8 +47,10 @@ function App() {
       )}
       <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3">
         <div className="w-3/6 flex flex-col">
-          {/* There will be 2 items in this area */}
-          <CharacterMenu />
+          <div className="h-3/6">
+            <CharacterMenu />
+          </div>
+          <div className="h-3/6">roll menu here</div>
         </div>
         <div id="chat-box" className="w-3/6">
           {currentUser !== "" && (
