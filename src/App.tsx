@@ -1,6 +1,7 @@
 import "./App.css";
 import Chat from "./components/Chat";
 import Header from "./components/Header";
+import CharacterMenu from "./components/CharacterMenu";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -44,9 +45,10 @@ function App() {
           </button>
         </div>
       )}
-      <div className="flex h-5/6">
-        <div className="flex flex-col">
+      <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3">
+        <div className="w-3/6 flex flex-col">
           {/* There will be 2 items in this area */}
+          <CharacterMenu />
         </div>
         <div id="chat-box" className="w-3/6">
           {currentUser !== "" && (
