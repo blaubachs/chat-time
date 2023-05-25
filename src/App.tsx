@@ -1,5 +1,6 @@
 import "./App.css";
 import Chat from "./components/Chat";
+import Header from "./components/Header";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -26,22 +27,33 @@ function App() {
 
   return (
     <div className="App bg-gray-900 h-screen text-white">
-      <p>chat-time</p>
-      <input
-        type="text"
-        onChange={handleUserNameChange}
-        value={username}
-        className="text-white bg-slate-700"
-      ></input>
-      <button
-        className="bg-blue-400 text-black"
-        onClick={() => setCurrentUser(username)}
-      >
-        set user
-      </button>
-      {currentUser !== "" && (
-        <Chat clientSocket={clientSocket} username={username} />
+      <Header />
+      {currentUser === "" && (
+        <div>
+          <input
+            type="text"
+            onChange={handleUserNameChange}
+            value={username}
+            className="text-white bg-slate-700"
+          ></input>
+          <button
+            className="bg-blue-400 text-black"
+            onClick={() => setCurrentUser(username)}
+          >
+            set user
+          </button>
+        </div>
       )}
+      <div className="flex h-5/6">
+        <div className="flex flex-col">
+          {/* There will be 2 items in this area */}
+        </div>
+        <div id="chat-box" className="w-3/6">
+          {currentUser !== "" && (
+            <Chat clientSocket={clientSocket} username={username} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
