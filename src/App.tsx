@@ -4,12 +4,15 @@ import Header from "./components/Header";
 import CharacterMenu from "./components/CharacterMenu";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { UserObject } from "./utils/interfaces";
 
 const clientSocket = io("http://localhost:3001");
 
 function App() {
   // ! these two pieces of state are only for testing and will be removed when users can login
-  const [username, setUsername] = useState("");
+  const [userObject, setUserObject] = useState<UserObject>({
+    username:""
+  })
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
@@ -22,28 +25,12 @@ function App() {
     });
   }, []);
 
-  const handleUserNameChange = (e: any) => {
-    setUsername(e.target.value);
-  };
-
   return (
     <div className="App bg-gray-900 h-screen text-white">
       <Header />
-      {currentUser === "" && (
+      {userObject.username !== "" && (
         <div>
-          <input
-            type="text"
-            onChange={handleUserNameChange}
-            value={username}
-            className="text-white bg-slate-700"
-          ></input>
-          <button
-            className="bg-blue-400 text-black"
-            onClick={() => setCurrentUser(username)}
-          >
-            set user
-          </button>
-        </div>
+          <p>You are {userObject.username}</p> </div>
       )}
       <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3">
         <div className="w-3/6 flex flex-col">
@@ -54,7 +41,7 @@ function App() {
         </div>
         <div id="chat-box" className="w-3/6">
           {currentUser !== "" && (
-            <Chat clientSocket={clientSocket} username={username} />
+            <Chat clientSocket={clientSocket} username={userObject.username} />
           )}
         </div>
       </div>
