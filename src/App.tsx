@@ -16,6 +16,7 @@ function App() {
     username: "",
   });
   const [currentUser, setCurrentUser] = useState("");
+  const [token, setToken] = useState<String>("");
 
   useEffect(() => {
     clientSocket.on("connect", () => {
@@ -50,7 +51,7 @@ function App() {
         </div>
       ) : (
         <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3 justify-around">
-          <Login />
+          <Login setToken={setToken} setUserObject={setUserObject} />
           <Signup />
         </div>
       )}

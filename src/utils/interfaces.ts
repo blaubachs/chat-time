@@ -14,3 +14,8 @@ export interface UserObject {
   password?: string;
   characters?: string[] | object[];
 }
+
+export interface LoginSignupProps {
+  setToken: (token: string) => void;
+  setUserObject: (obj: UserObject) => void;
+}

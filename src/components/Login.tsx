@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { UserObject } from "../utils/interfaces";
+import { LoginSignupProps, UserObject } from "../utils/interfaces";
 import API from "../utils/API";
 
-export default function Login() {
+export default function Login({ setToken, setUserObject }: LoginSignupProps) {
   const [loginForm, setLoginForm] = useState<UserObject>({
     username: "",
     password: "",
@@ -17,6 +17,8 @@ export default function Login() {
     try {
       const newUser = await API.login(loginForm);
       console.log(newUser);
+      setToken(newUser.token);
+      setUserObject(newUser.user);
     } catch (err) {
       console.log(err);
     }
