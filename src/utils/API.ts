@@ -24,6 +24,18 @@ const API = {
       return err;
     }
   },
+  isValidToken: async (token: string) => {
+    const checkToken = await axios.get(
+      `${URL_PREFIX}/api/users/token/isValidToken`,
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(checkToken);
+    return checkToken;
+  },
 };
 
 export default API;
