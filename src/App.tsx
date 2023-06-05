@@ -15,7 +15,6 @@ function App() {
   const [userObject, setUserObject] = useState<UserObject>({
     username: "",
   });
-  const [currentUser, setCurrentUser] = useState("");
   const [token, setToken] = useState<String>("");
 
   useEffect(() => {
@@ -41,7 +40,7 @@ function App() {
             <div className="h-3/6">roll menu here</div>
           </div>
           <div id="chat-box" className="w-3/6">
-            {currentUser !== "" && (
+            {userObject.username !== "" && (
               <Chat
                 clientSocket={clientSocket}
                 username={userObject.username}
