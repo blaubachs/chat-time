@@ -52,7 +52,7 @@ function App() {
       ) : (
         <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3 justify-around">
           <Login setToken={setToken} setUserObject={setUserObject} />
-          <Signup />
+          <Signup setToken={setToken} setUserObject={setUserObject} />
         </div>
       )}
     </div>
