@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { UserObject } from "./utils/interfaces";
+import { ExpeditionInterface, UserObject } from "./utils/interfaces";
 
 const clientSocket = io("http://localhost:3001");
 
@@ -16,6 +16,13 @@ function App() {
     username: "",
   });
   const [token, setToken] = useState<String>("");
+  const [currentRoomData, setCurrentRoomData] = useState<ExpeditionInterface>({
+    _id: "",
+    name: "",
+    options: {},
+    characters: [],
+    messages: [],
+  });
 
   useEffect(() => {
     clientSocket.on("connect", () => {
@@ -29,7 +36,11 @@ function App() {
 
   return (
     <div className="App bg-gray-900 h-screen text-white">
-      <Header />
+      <Header
+        clientSocket={clientSocket}
+        username={userObject.username}
+        currentRoomData={currentRoomData}
+      />
       {userObject.username !== "" ? (
         <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3">
           <div className="w-3/6 flex flex-col">
@@ -42,6 +53,8 @@ function App() {
           <div id="chat-box" className="w-3/6">
             {userObject.username !== "" && (
               <Chat
+                setCurrentRoomData={setCurrentRoomData}
+                user={userObject}
                 clientSocket={clientSocket}
                 username={userObject.username}
               />

@@ -1,11 +1,24 @@
 export interface GlobalPropTypes {
   clientSocket: any;
   username: string;
+  user?: UserObject;
+  currentRoomData?: ExpeditionInterface;
+  setCurrentRoomData?: (obj: ExpeditionInterface) => void;
 }
 
 export interface MessageInterface {
   user: string;
   message: string;
+}
+
+export interface ExpeditionInterface {
+  _id: any;
+  name: string;
+  options: object;
+  owner?: UserObject;
+  members?: any[];
+  characters: any[];
+  messages: MessageInterface[];
 }
 
 export interface UserObject {

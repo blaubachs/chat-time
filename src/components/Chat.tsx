@@ -1,14 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
 import Message from "./Message";
-import { GlobalPropTypes, MessageInterface } from "../utils/interfaces";
+import {
+  ExpeditionInterface,
+  GlobalPropTypes,
+  MessageInterface,
+} from "../utils/interfaces";
 
-export default function Chat({ clientSocket, username }: GlobalPropTypes) {
+export default function Chat({
+  clientSocket,
+  username,
+  user,
+  setCurrentRoomData,
+}: GlobalPropTypes) {
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState<MessageInterface[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log("joinin the main room haha");
+    clientSocket.emit("join_main_room", user);
+  }, []);
+
+  useEffect(() => {
     console.log("listening for messages...");
+
+    clientSocket.on("room_data", (room: ExpeditionInterface) => {
+      console.log(room);
+      if (setCurrentRoomData) {
+        setCurrentRoomData(room);
+      }
+    });
 
     clientSocket.on("chat_message", (data: MessageInterface) => {
       setAllMessages((prevMessages) => [...prevMessages, data]);
