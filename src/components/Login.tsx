@@ -26,6 +26,7 @@ export default function Login({ setToken, setUserObject }: LoginSignupProps) {
 
   return (
     <div>
+      <h1 className="text-xl font-bold">Login</h1>
       <form className="flex flex-col" onSubmit={handleLoginSubmit}>
         <label htmlFor="username">Username</label>
         <input
