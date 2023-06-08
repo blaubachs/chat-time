@@ -10,6 +10,7 @@ export default function Chat({
   clientSocket,
   username,
   user,
+  currentRoomData,
   setCurrentRoomData,
 }: GlobalPropTypes) {
   const [newMessage, setNewMessage] = useState("");
@@ -56,7 +57,14 @@ export default function Chat({
       ...prevMessages,
       { user: username, message: newMessage },
     ]);
-    clientSocket.emit("chat_message", { user: username, message: newMessage });
+    // ! need to send user id to backend to create a message.
+    if (currentRoomData) {
+      clientSocket.emit("chat_message", {
+        user: username,
+        message: newMessage,
+        roomId: currentRoomData._id,
+      });
+    }
     setNewMessage("");
   };
   return (

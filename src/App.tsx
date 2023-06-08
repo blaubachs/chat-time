@@ -53,6 +53,7 @@ function App() {
           <div id="chat-box" className="w-3/6">
             {userObject.username !== "" && (
               <Chat
+                currentRoomData={currentRoomData}
                 setCurrentRoomData={setCurrentRoomData}
                 user={userObject}
                 clientSocket={clientSocket}
