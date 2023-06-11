@@ -32,3 +32,13 @@ export interface LoginSignupProps {
   setToken: (token: string) => void;
   setUserObject: (obj: UserObject) => void;
 }
+
+export interface NewExpeditionForm {
+  name: string;
+  options?: {
+    critFailThresh: number;
+    failThresh: number;
+    successThresh: number;
+    critSuccessThresh: number;
+  };
+}

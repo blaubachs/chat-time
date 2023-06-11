@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GlobalPropTypes } from "../utils/interfaces";
+import { GlobalPropTypes, NewExpeditionForm } from "../utils/interfaces";
 
 export default function Header({
   clientSocket,
@@ -7,6 +7,9 @@ export default function Header({
   currentRoomData,
 }: GlobalPropTypes) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [newExpeditionForm, setNewExpeditionForm] = useState<NewExpeditionForm>(
+    { name: "" }
+  );
 
   const handleNewExpedition = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -16,6 +19,20 @@ export default function Header({
   const handleCloseModal = (e: React.FormEvent) => {
     e.preventDefault();
     setModalOpen(false);
+  };
+
+  const handleExpeditionFormChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewExpeditionForm({
+      ...newExpeditionForm,
+      [name]: value,
+    });
+  };
+
+  const submitExpeditionForm = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(newExpeditionForm);
   };
 
   return (
@@ -30,10 +47,16 @@ export default function Header({
       <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
         <div className="modal-content">
           <h2>Create New Expedition</h2>
-          <form>
+          <form onSubmit={submitExpeditionForm}>
             <label>
               Name:
-              <input type="text" name="name" />
+              <input
+                className="text-black"
+                type="text"
+                name="name"
+                value={newExpeditionForm.name}
+                onChange={handleExpeditionFormChange}
+              />
             </label>
             <button type="submit" onClick={handleCloseModal}>
               Create
