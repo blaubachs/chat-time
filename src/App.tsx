@@ -39,6 +39,7 @@ function App() {
       <Header
         clientSocket={clientSocket}
         username={userObject.username}
+        user={userObject}
         currentRoomData={currentRoomData}
       />
       {userObject.username !== "" ? (

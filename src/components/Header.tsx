@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { GlobalPropTypes, NewExpeditionForm } from "../utils/interfaces";
+import API from "../utils/API";
 
 export default function Header({
   clientSocket,
+  user,
   username,
   currentRoomData,
 }: GlobalPropTypes) {
   const [modalOpen, setModalOpen] = useState(false);
   const [newExpeditionForm, setNewExpeditionForm] = useState<NewExpeditionForm>(
-    { name: "" }
+    { name: "", owner: user?._id }
   );
 
   const handleNewExpedition = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,7 +33,10 @@ export default function Header({
     });
   };
 
-  const submitExpeditionForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitExpeditionForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const resExp = await API.createNewExpedition(newExpeditionForm);
+    console.log(resExp);
     console.log(newExpeditionForm);
   };
 
@@ -58,9 +63,7 @@ export default function Header({
                 onChange={handleExpeditionFormChange}
               />
             </label>
-            <button type="submit" onClick={handleCloseModal}>
-              Create
-            </button>
+            <button type="submit">Create</button>
           </form>
           <button className="close" onClick={handleCloseModal}>
             &times;

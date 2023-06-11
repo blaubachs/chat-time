@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserObject } from "./interfaces";
+import { NewExpeditionForm, UserObject } from "./interfaces";
 const URL_PREFIX = "http://localhost:3001/api";
 
 const API = {
@@ -32,6 +32,18 @@ const API = {
     );
     console.log(checkToken);
     return checkToken;
+  },
+  createNewExpedition: async (newExp: NewExpeditionForm) => {
+    try {
+      const createdExp = await axios.post(
+        `${URL_PREFIX}/expeditions/new`,
+        newExp
+      );
+      console.log(createdExp);
+      return createdExp.data;
+    } catch (err) {
+      return err;
+    }
   },
 };
 

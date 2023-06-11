@@ -41,4 +41,5 @@ export interface NewExpeditionForm {
     successThresh: number;
     critSuccessThresh: number;
   };
+  owner: string;
 }
