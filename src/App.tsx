@@ -41,6 +41,7 @@ function App() {
         username={userObject.username}
         user={userObject}
         currentRoomData={currentRoomData}
+        setCurrentRoomData={setCurrentRoomData}
       />
       {userObject.username !== "" ? (
         <div className="flex h-5/6 border-2 border-blue-400 m-5 p-3">

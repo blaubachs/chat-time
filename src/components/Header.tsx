@@ -7,6 +7,7 @@ export default function Header({
   user,
   username,
   currentRoomData,
+  setCurrentRoomData,
 }: GlobalPropTypes) {
   const [modalOpen, setModalOpen] = useState(false);
   const [newExpeditionForm, setNewExpeditionForm] = useState<NewExpeditionForm>(
@@ -38,6 +39,9 @@ export default function Header({
     const resExp = await API.createNewExpedition(newExpeditionForm);
     console.log(resExp);
     console.log(newExpeditionForm);
+    if (setCurrentRoomData) {
+      setCurrentRoomData(resExp.expedition);
+    }
   };
 
   return (
