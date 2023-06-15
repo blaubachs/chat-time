@@ -45,6 +45,16 @@ const API = {
       return err;
     }
   },
+  getOneRoom: async (roomId: string) => {
+    try {
+      console.log(roomId);
+      const foundRoom = await axios.get(`${URL_PREFIX}/expeditions/${roomId}`);
+      console.log(foundRoom);
+      return foundRoom.data;
+    } catch (err) {
+      return err;
+    }
+  },
 };
 
 export default API;

@@ -5,6 +5,7 @@ import {
   GlobalPropTypes,
   MessageInterface,
 } from "../utils/interfaces";
+import API from "../utils/API";
 
 export default function Chat({
   clientSocket,
@@ -17,11 +18,37 @@ export default function Chat({
   const [allMessages, setAllMessages] = useState<MessageInterface[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  // load saved messages from room
   useEffect(() => {
-    console.log("joinin the main room haha");
-    clientSocket.emit("join_main_room", user);
-  }, []);
+    if (!currentRoomData) return;
+    if (currentRoomData._id === "") return;
+    API.getOneRoom(currentRoomData._id).then((room) => {
+      setAllMessages(room.messages);
+    });
+  }, [currentRoomData]);
 
+  // handle room for user to join
+  useEffect(() => {
+    if (currentRoomData) {
+      if (currentRoomData.name === "") {
+        console.log("joining the main room haha");
+        clientSocket.emit("join_main_room", user);
+      } else {
+        console.log("joining room " + currentRoomData.name);
+        const { name } = currentRoomData;
+        clientSocket.emit("join_room", { roomName: name, user });
+      }
+    }
+    return () => {
+      if (currentRoomData && currentRoomData.name !== "") {
+        console.log("leaving the room");
+        const { name } = currentRoomData;
+        clientSocket.emit("leave_room", name);
+      }
+    };
+  }, [currentRoomData, user, clientSocket]);
+
+  // listen for messages from server
   useEffect(() => {
     console.log("listening for messages...");
 
@@ -32,14 +59,19 @@ export default function Chat({
       }
     });
 
-    clientSocket.on("chat_message", (data: MessageInterface) => {
-      setAllMessages((prevMessages) => [...prevMessages, data]);
-    });
+    clientSocket.on(
+      "chat_message",
+      (data: { message: MessageInterface; roomId: String }) => {
+        console.log("message received: ", data);
+        setAllMessages((prevMessages) => [...prevMessages, data.message]);
+      }
+    );
     return () => {
       clientSocket.off("chat_message");
     };
   }, [clientSocket]);
 
+  // scroll to bottom of chat container when new message is added
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -55,13 +87,12 @@ export default function Chat({
     e.preventDefault();
     setAllMessages((prevMessages) => [
       ...prevMessages,
-      { user: username, message: newMessage },
+      { user: username, content: newMessage, inCharacter: false },
     ]);
     // ! need to send user id to backend to create a message.
     if (currentRoomData) {
       clientSocket.emit("chat_message", {
-        user: username,
-        message: newMessage,
+        message: { user: username, content: newMessage, inCharacter: false },
         roomId: currentRoomData._id,
       });
     }
@@ -81,7 +112,11 @@ export default function Chat({
                 msg.user === username ? `justify-end` : `justify-start`
               }`}
             >
-              <Message user={msg.user} message={msg.message} />
+              <Message
+                user={msg.user}
+                content={msg.content}
+                inCharacter={false}
+              />
             </div>
           );
         })}

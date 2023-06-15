@@ -8,7 +8,9 @@ export interface GlobalPropTypes {
 
 export interface MessageInterface {
   user: string;
-  message: string;
+  content: string;
+  inCharacter: boolean;
+  character?: string;
 }
 
 export interface ExpeditionInterface {
