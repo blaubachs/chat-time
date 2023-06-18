@@ -13,6 +13,7 @@ export default function Header({
   const [newExpeditionForm, setNewExpeditionForm] = useState<NewExpeditionForm>(
     { name: "", owner: user?._id }
   );
+  const [joinRoomName, setJoinRoomName] = useState("");
 
   const handleNewExpedition = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -34,6 +35,16 @@ export default function Header({
     });
   };
 
+  const handleJoinRoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setJoinRoomName(e.target.value);
+  };
+
+  const handleJoinRoomSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    clientSocket.emit("join_room", { roomName: joinRoomName, user });
+    setJoinRoomName("");
+  };
+
   const submitExpeditionForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const resExp = await API.createNewExpedition(newExpeditionForm);
@@ -51,6 +62,21 @@ export default function Header({
         <button className="bg-blue-400" onClick={handleNewExpedition}>
           New Expedition
         </button>
+        <form onSubmit={handleJoinRoomSubmit}>
+          <label>
+            Join Room:
+            <input
+              className="text-black"
+              type="text"
+              name="join_room_name"
+              value={joinRoomName}
+              onChange={handleJoinRoomChange}
+            />
+          </label>
+          <button className="bg-blue-400" type="submit">
+            Join
+          </button>
+        </form>
       </div>
       {/* modal for new expedition */}
       <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>

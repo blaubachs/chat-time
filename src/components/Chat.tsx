@@ -43,7 +43,7 @@ export default function Chat({
       if (currentRoomData && currentRoomData.name !== "") {
         console.log("leaving the room");
         const { name } = currentRoomData;
-        clientSocket.emit("leave_room", name);
+        clientSocket.emit("leave_room", { roomName: name, user });
       }
     };
   }, [currentRoomData, user, clientSocket]);
@@ -66,10 +66,11 @@ export default function Chat({
         setAllMessages((prevMessages) => [...prevMessages, data.message]);
       }
     );
+
     return () => {
       clientSocket.off("chat_message");
     };
-  }, [clientSocket]);
+  }, []);
 
   // scroll to bottom of chat container when new message is added
   useEffect(() => {
