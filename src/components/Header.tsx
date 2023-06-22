@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { GlobalPropTypes, NewExpeditionForm } from "../utils/interfaces";
+import {
+  ExpeditionInterface,
+  GlobalPropTypes,
+  NewExpeditionForm,
+} from "../utils/interfaces";
 import API from "../utils/API";
 
 export default function Header({
@@ -10,6 +14,10 @@ export default function Header({
   setCurrentRoomData,
 }: GlobalPropTypes) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [showExpeditions, setShowExpeditions] = useState(false);
+  const [allExpeditions, setAllExpeditions] = useState<ExpeditionInterface[]>(
+    []
+  );
   const [newExpeditionForm, setNewExpeditionForm] = useState<NewExpeditionForm>(
     { name: "", owner: user?._id }
   );
@@ -33,6 +41,15 @@ export default function Header({
       ...newExpeditionForm,
       [name]: value,
     });
+  };
+
+  const handleFindExpeditions = async () => {
+    const rooms = await API.getAllRooms();
+    console.log(rooms);
+    if (rooms) {
+      setAllExpeditions(rooms);
+      setShowExpeditions(true);
+    }
   };
 
   const handleJoinRoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +79,10 @@ export default function Header({
         <button className="bg-blue-400" onClick={handleNewExpedition}>
           New Expedition
         </button>
-        <form onSubmit={handleJoinRoomSubmit}>
+        <button className="bg-blue-400" onClick={() => handleFindExpeditions()}>
+          Join Expedition
+        </button>
+        {/* <form onSubmit={handleJoinRoomSubmit}>
           <label>
             Join Room:
             <input
@@ -76,7 +96,7 @@ export default function Header({
           <button className="bg-blue-400" type="submit">
             Join
           </button>
-        </form>
+        </form> */}
       </div>
       {/* modal for new expedition */}
       <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
@@ -96,6 +116,36 @@ export default function Header({
             <button type="submit">Create</button>
           </form>
           <button className="close" onClick={handleCloseModal}>
+            &times;
+          </button>
+        </div>
+      </div>
+      {/* modal for joining expedition */}
+
+      <div
+        className="modal"
+        style={{ display: showExpeditions ? "block" : "none" }}
+      >
+        <div className="modal-content">
+          <h2>Join Expedition</h2>
+          {/* map over allExpeditions */}
+          {allExpeditions.map((expedition) => (
+            <button
+              className="bg-blue-400 mx-3 py-1 px-3"
+              key={expedition._id}
+              onClick={() => {
+                clientSocket.emit("join_room", {
+                  roomName: expedition.name,
+                  user,
+                });
+                setShowExpeditions(false);
+              }}
+            >
+              {expedition.name}
+            </button>
+          ))}
+
+          <button className="close" onClick={() => setShowExpeditions(false)}>
             &times;
           </button>
         </div>

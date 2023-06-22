@@ -49,8 +49,15 @@ const API = {
     try {
       console.log(roomId);
       const foundRoom = await axios.get(`${URL_PREFIX}/expeditions/${roomId}`);
-      console.log(foundRoom);
       return foundRoom.data;
+    } catch (err) {
+      return err;
+    }
+  },
+  getAllRooms: async () => {
+    try {
+      const allRooms = await axios.get(`${URL_PREFIX}/expeditions`);
+      return allRooms.data;
     } catch (err) {
       return err;
     }
