@@ -43,8 +43,11 @@ export default function Header({
   };
 
   const handleFindExpeditions = async () => {
+    if (showExpeditions && allExpeditions.length > 0) {
+      setShowExpeditions(false);
+      return;
+    }
     const rooms = await API.getAllRooms();
-    console.log(rooms);
     if (rooms) {
       setAllExpeditions(rooms);
       setShowExpeditions(true);
