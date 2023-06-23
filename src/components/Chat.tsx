@@ -35,17 +35,13 @@ export default function Chat({
         clientSocket.emit("join_main_room", user);
       } else {
         console.log("joining room " + currentRoomData.name);
-        const { name } = currentRoomData;
-        clientSocket.emit("join_room", { roomName: name, user });
+
+        clientSocket.emit("join_room", {
+          roomName: currentRoomData.name,
+          user,
+        });
       }
     }
-    return () => {
-      if (currentRoomData && currentRoomData.name !== "") {
-        console.log("leaving the room");
-        const { name } = currentRoomData;
-        clientSocket.emit("leave_room", { roomName: name, user });
-      }
-    };
   }, [currentRoomData, user, clientSocket]);
 
   // listen for messages from server

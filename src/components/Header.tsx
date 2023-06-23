@@ -110,10 +110,15 @@ export default function Header({
               className="bg-blue-400 mx-3 py-1 px-3"
               key={expedition._id}
               onClick={() => {
-                clientSocket.emit("join_room", {
-                  roomName: expedition.name,
+                console.log("clicke");
+                clientSocket.emit("leave_room", {
+                  roomName: currentRoomData?.name,
                   user,
                 });
+
+                if (setCurrentRoomData) {
+                  setCurrentRoomData(expedition);
+                }
                 setShowExpeditions(false);
               }}
             >
