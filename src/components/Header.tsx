@@ -58,7 +58,6 @@ export default function Header({
     e.preventDefault();
     const resExp = await API.createNewExpedition(newExpeditionForm);
     console.log(resExp);
-    console.log(newExpeditionForm);
     if (setCurrentRoomData) {
       setCurrentRoomData(resExp.expedition);
     }
