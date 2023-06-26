@@ -31,7 +31,6 @@ export default function Chat({
   useEffect(() => {
     if (currentRoomData) {
       if (currentRoomData.name === "") {
-        console.log("joining the main room haha");
         clientSocket.emit("join_main_room", user);
       } else {
         console.log("joining room " + currentRoomData.name);
@@ -95,6 +94,7 @@ export default function Chat({
     }
     setNewMessage("");
   };
+
   return (
     <div
       className="h-5/6 border-2 border-black mx-40 overflow-y-auto"

@@ -66,14 +66,21 @@ export default function Header({
 
   return (
     <>
-      <div className="border-2 border-blue-500 h-16 flex items-center justify-around">
-        <div>Expedition: {currentRoomData && currentRoomData.name}</div>
-        <button className="bg-blue-400" onClick={handleNewExpedition}>
-          New Expedition
-        </button>
-        <button className="bg-blue-400" onClick={() => handleFindExpeditions()}>
-          Join Expedition
-        </button>
+      <div className="border-2 border-blue-500 h-16">
+        {username !== "" && (
+          <div className="h-full flex items-center justify-around">
+            <div>Expedition: {currentRoomData && currentRoomData.name}</div>
+            <button className="bg-blue-400" onClick={handleNewExpedition}>
+              New Expedition
+            </button>
+            <button
+              className="bg-blue-400"
+              onClick={() => handleFindExpeditions()}
+            >
+              Join Expedition
+            </button>
+          </div>
+        )}
       </div>
       {/* modal for new expedition */}
       <div className="modal" style={{ display: modalOpen ? "block" : "none" }}>
@@ -110,7 +117,6 @@ export default function Header({
               className="bg-blue-400 mx-3 py-1 px-3"
               key={expedition._id}
               onClick={() => {
-                console.log("clicke");
                 clientSocket.emit("leave_room", {
                   roomName: currentRoomData?.name,
                   user,
