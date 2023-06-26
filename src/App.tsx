@@ -34,6 +34,7 @@ function App() {
     });
   }, []);
 
+  // ! need to update this so page state can determine what to render instead of react router
   return (
     <div className="App bg-gray-900 h-screen text-white">
       <Header
