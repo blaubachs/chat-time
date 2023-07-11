@@ -73,6 +73,16 @@ export default function Chat({
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
+    // if messages array is too long, pop off the end
+    if (allMessages.length > 40) {
+      setAllMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        if (newMessages.length > 40) {
+          newMessages.shift();
+        }
+        return newMessages;
+      });
+    }
   }, [allMessages]);
 
   // scroll to bottom of chat container on page load if chat container is scrollable
