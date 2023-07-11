@@ -75,6 +75,20 @@ export default function Chat({
     }
   }, [allMessages]);
 
+  // scroll to bottom of chat container on page load if chat container is scrollable
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      const chatContainer = chatContainerRef.current;
+      const isScrolledToBottom =
+        chatContainer.scrollHeight - chatContainer.clientHeight <=
+        chatContainer.scrollTop + 1;
+
+      if (isScrolledToBottom) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }
+  }, []);
+
   const handleMessageChange = (e: any) => {
     setNewMessage(e.target.value);
   };
