@@ -81,6 +81,8 @@ export default function Chat({
 
   const sendMessage = (e: any) => {
     e.preventDefault();
+    if (newMessage === "") return;
+
     setAllMessages((prevMessages) => [
       ...prevMessages,
       { user: username, content: newMessage, inCharacter: false },
